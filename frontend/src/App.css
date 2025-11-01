@@ -15,6 +15,18 @@
   font-family: "Libre Baskerville", serif;
 }
 
+/* Remove all button highlighting globally */
+button,
+button:focus,
+button:active,
+button:hover {
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-focus-ring-color: transparent;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
 /* Special fonts for different elements to match invitation */
 .script-font {
   font-family: "Dancing Script", cursive;
@@ -41,25 +53,11 @@
   margin: 0 auto;
   padding: 0 20px;
   text-align: center;
-}
-
-.welcome-title {
-  font-size: 4rem;
-  color: var(--lavender);
-  margin: 0 0 10px 0;
-  font-weight: 400;
-  letter-spacing: 2px;
-}
-
-.to-text {
-  font-size: 1.5rem;
-  color: var(--sky-blue);
-  margin: 0px;
-  font-weight: 400;
+  line-height: 1.6;
 }
 
 .name-title {
-  font-size: 3.5rem;
+  font-size: 4rem;
   color: var(--peach-pink);
   margin: 0;
   font-weight: 600;
@@ -74,20 +72,89 @@
   letter-spacing: 1px;
 }
 
-.date {
+.content .date {
   font-size: 1.5rem;
   color: var(--sky-blue);
   margin: 20px 0;
   font-weight: 400;
 }
 
-.rsvp-text {
+.rsvp-button {
+  background: var(--soft-gray);
+  border: 2px solid var(--peach-pink);
   font-size: 1.2rem;
   color: var(--lavender);
-  margin: 30px 0;
+  margin: 10px;
+  padding: 15px 30px;
+  border-radius: 25px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  letter-spacing: 0.5px;
+}
+
+.rsvp-button:hover {
+  background: var(--peach-pink);
+  color: var(--white);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(245, 184, 195, 0.4);
+  border: 2px solid var(--peach-pink);
+}
+
+.rsvp-button:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(245, 184, 195, 0.3);
 }
 
 .content p {
   font-size: 1.2rem;
   color: var(--lavender);
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+  .banner {
+    height: 25vh;
+  }
+
+  .name-title {
+    font-size: 2.5rem;
+  }
+
+  .event-title {
+    font-size: 1.8rem;
+  }
+
+  .content .date {
+    font-size: 1.2rem;
+  }
+
+  .rsvp-button {
+    font-size: 1rem;
+    padding: 12px 24px;
+    margin: 8px;
+  }
+
+  .content {
+    padding: 0 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .name-title {
+    font-size: 2rem;
+  }
+
+  .event-title {
+    font-size: 1.5rem;
+  }
+
+  .banner {
+    height: 20vh;
+  }
+
+  .rsvp-button {
+    width: 80%;
+    max-width: 250px;
+  }
 }
