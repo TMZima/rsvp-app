@@ -1,13 +1,5 @@
 import Rsvp from "../../models/Rsvp.js";
-import mongoose from "mongoose";
-
-// Connect to MongoDB
-async function connectDB() {
-  if (mongoose.connections[0].readyState) {
-    return;
-  }
-  await mongoose.connect(process.env.MONGO_URI);
-}
+import { connectDB } from "../../lib/mongodb.js";
 
 export default async function handler(req, res) {
   // Handle POST request to create a new RSVP
@@ -65,6 +57,7 @@ export default async function handler(req, res) {
         .json({ message: "Unable to submit RSVP. Please try again." });
     }
   } else if (req.method === "GET") {
+    // Handle GET request to retrieve all RSVPs
     try {
       await connectDB();
       const rsvps = await Rsvp.find();
