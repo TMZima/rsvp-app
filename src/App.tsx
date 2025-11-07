@@ -1,11 +1,41 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
-import "./App.css";
 import RSVPModal from "./components/RSVPModal";
+import Countdown from "./components/Countdown";
+import "./App.css";
+
+interface EventApiResponse {
+  message: string;
+  eventInfo: {
+    canStillRSVP: boolean;
+    daysUntilDeadline: number;
+    daysUntilEvent: number;
+    eventDate?: string;
+    eventLocation: string;
+    eventName: string;
+    isDeadlinePassed: boolean;
+    rsvpDeadline: string;
+  };
+}
 
 function App() {
   const [attending, setAttending] = useState<boolean | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [eventInfo, setEventInfo] = useState<EventApiResponse | null>(null);
+
+  useEffect(() => {
+    const fetchEventInfo = async () => {
+      try {
+        const response = await fetch("/api/rsvp/event-info");
+        const data = await response.json();
+        setEventInfo(data);
+      } catch (err) {
+        console.error("Error fetching event info:", err);
+      }
+    };
+
+    fetchEventInfo();
+  }, []);
 
   function handleWillAttend() {
     console.log("Will Attend clicked!");
@@ -28,6 +58,7 @@ function App() {
         <h2 className="script-font name-title">McKinsley's</h2>
         <h3 className="event-title">Winter One-derland</h3>
         <p className="date">December 6th, 2025</p>
+        {eventInfo && <Countdown eventDate={eventInfo.eventInfo.eventDate!} />}
         <button className="rsvp-button" onClick={handleWillAttend}>
           Will attend
         </button>

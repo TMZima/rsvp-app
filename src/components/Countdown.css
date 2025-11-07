@@ -1,0 +1,25 @@
+.countdown-container {
+  margin: 20px 0;
+  text-align: center;
+}
+
+.countdown-title {
+  font-family: "Dancing Script", cursive;
+  font-size: 1.5rem;
+  color: var(--sky-blue);
+  margin-bottom: 15px;
+}
+
+.countdown-display {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.time-number {
+  font-family: "Libre Baskerville", serif;
+  font-size: 1.1rem;
+  color: var(--peach-pink);
+  font-weight: 600;
+}
