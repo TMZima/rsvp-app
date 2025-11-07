@@ -93,12 +93,21 @@ button:hover {
   letter-spacing: 0.5px;
 }
 
-.rsvp-button:hover {
-  background: var(--peach-pink);
-  color: var(--white);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 15px rgba(245, 184, 195, 0.4);
+.rsvp-button:focus {
+  outline: none;
+  box-shadow: none;
   border: 2px solid var(--peach-pink);
+}
+
+/* Only apply hover effects on devices that support hover */
+@media (hover: hover) {
+  .rsvp-button:hover {
+    background: var(--peach-pink);
+    color: var(--white);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(245, 184, 195, 0.4);
+    border: 2px solid var(--peach-pink);
+  }
 }
 
 .rsvp-button:active {
