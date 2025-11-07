@@ -16,10 +16,12 @@ function Countdown({ eventDate }: CountdownProps) {
 
   const calculateTimeLeft = () => {
     const now = new Date().getTime();
+    // Ensure eventDate is properly parsed as UTC if it has Z suffix
     const eventTime = new Date(eventDate).getTime();
     const difference = eventTime - now;
 
     if (difference > 0) {
+      // Calculate time units from milliseconds
       const days = Math.floor(difference / (1000 * 60 * 60 * 24));
       const hours = Math.floor(
         (difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
@@ -34,12 +36,14 @@ function Countdown({ eventDate }: CountdownProps) {
   };
 
   useEffect(() => {
-    calculateTimeLeft();
+    calculateTimeLeft(); // Initial calculation
 
+    // Update every second
     const timer = setInterval(() => {
       calculateTimeLeft();
     }, 1000);
 
+    // Cleanup timer on unmount
     return () => clearInterval(timer);
   }, [eventDate]);
 

@@ -93,12 +93,6 @@ button:hover {
   letter-spacing: 0.5px;
 }
 
-.rsvp-button:focus {
-  outline: none;
-  box-shadow: none;
-  border: 2px solid var(--peach-pink);
-}
-
 /* Only apply hover effects on devices that support hover */
 @media (hover: hover) {
   .rsvp-button:hover {
