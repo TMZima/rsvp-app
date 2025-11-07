@@ -21,9 +21,9 @@ export function useEventInfo() {
   useEffect(() => {
     const fetchEventInfo = async (retryCount = 0) => {
       try {
-        // timeout for potential cold starts
+        // Longer timeout for potential cold starts
         const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 5000); // 5 second timeout
+        const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout for faster retries
 
         const response = await fetch("/api/rsvp/event-info", {
           signal: controller.signal,
@@ -52,7 +52,7 @@ export function useEventInfo() {
             error.message?.includes("Failed to fetch"))
         ) {
           console.log(`Retrying... (attempt ${retryCount + 2})`);
-          setTimeout(() => fetchEventInfo(retryCount + 1), 1000); // Wait 1 second before retry
+          setTimeout(() => fetchEventInfo(retryCount + 1), 300); // Wait 0.3 second before retry
           return;
         }
 
