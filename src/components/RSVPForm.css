@@ -1,0 +1,83 @@
+/* RSVPForm.css - Consistent with app and modal styles */
+
+.rsvp-form {
+  color: var(--lavender);
+  background: var(--white);
+  border-radius: 15px;
+  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.08);
+  padding: 2rem 1.5rem;
+  max-width: 400px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.rsvp-form label {
+  display: flex;
+  flex-direction: column;
+  font-weight: 500;
+  color: var(--lavender);
+  gap: 0.3rem;
+  text-align: left;
+}
+
+.form-input {
+  color: var(--lavender);
+  padding: 0.6rem 0.9rem;
+  border: 1px solid var(--lavender);
+  border-radius: 8px;
+  font-size: 1rem;
+  background: var(--soft-gray);
+  transition: border 0.2s;
+  margin-top: 0.2rem;
+}
+.form-input:focus {
+  border-color: var(--peach-pink);
+  outline: none;
+  background: var(--white);
+}
+
+.form-error {
+  color: var(--peach-pink);
+  background: var(--soft-gray);
+  border: 1px solid var(--peach-pink);
+  border-radius: 8px;
+  padding: 0.7rem 1rem;
+  font-size: 0.98rem;
+  margin-bottom: 0.5rem;
+  text-align: center;
+}
+
+.form-success {
+  background: var(--soft-gray);
+  border: 1px solid var(--lavender);
+  border-radius: 15px;
+  padding: 2rem 1.5rem;
+  text-align: center;
+  color: var(--lavender);
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.form-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+  margin-top: 0.5rem;
+}
+
+/* Buttons use .rsvp-button from App.css for consistency */
+
+@media (max-width: 480px) {
+  .rsvp-form,
+  .form-success {
+    padding: 1.2rem 0.5rem;
+    max-width: 98vw;
+  }
+  .form-actions {
+    flex-direction: column;
+    gap: 0.5rem;
+    align-items: stretch;
+  }
+}

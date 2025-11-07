@@ -19,17 +19,20 @@ export default async function handler(req, res) {
         });
       }
       const rsvp = await Rsvp.create(req.body);
+      // For Vercel/Next.js serverless: get protocol and host from headers
+      const protocol = req.headers["x-forwarded-proto"] || "http";
+      const host = req.headers.host;
       res.status(201).json({
         message: "RSVP submitted successfully! Save your update link.",
         rsvp,
-        updateLink: `${req.protocol}://${req.get("host")}/api/rsvp/token/${
-          rsvp.updateToken
-        }`,
+        updateLink: `${protocol}://${host}/api/rsvp/token/${rsvp.updateToken}`,
       });
     } catch (err) {
       // Handle duplicate email (unique constraint violation)
       if (err.code === 11000 && err.keyPattern?.email) {
         const existingRsvp = await Rsvp.findOne({ email: req.body.email });
+        const protocol = req.headers["x-forwarded-proto"] || "http";
+        const host = req.headers.host;
         return res.status(409).json({
           message:
             "You have already submitted an RSVP. Use your update link to make changes.",
@@ -38,9 +41,7 @@ export default async function handler(req, res) {
             email: existingRsvp.email,
             attending: existingRsvp.attending,
           },
-          updateLink: `${req.protocol}://${req.get("host")}/api/rsvp/token/${
-            existingRsvp.updateToken
-          }`,
+          updateLink: `${protocol}://${host}/api/rsvp/token/${existingRsvp.updateToken}`,
         });
       }
 

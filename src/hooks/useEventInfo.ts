@@ -23,7 +23,7 @@ export function useEventInfo() {
       try {
         // Longer timeout for potential cold starts
         const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout for faster retries
+        const timeoutId = setTimeout(() => controller.abort(), 5000); // 5 second timeout for faster retries
 
         const response = await fetch("/api/rsvp/event-info", {
           signal: controller.signal,
@@ -57,7 +57,7 @@ export function useEventInfo() {
         }
 
         setApiError(
-          "Could not load event information. Please refresh to try again."
+          "Could not load event countdown. Please refresh to try again."
         );
       } finally {
         if (retryCount === 0 || apiError) {

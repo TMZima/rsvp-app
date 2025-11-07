@@ -74,8 +74,7 @@ button:hover {
 
 .content .date {
   font-size: 1.5rem;
-  color: var(--sky-blue);
-  margin: 20px 0;
+  margin: 20px 0 0 0;
   font-weight: 400;
 }
 
@@ -93,17 +92,6 @@ button:hover {
   letter-spacing: 0.5px;
 }
 
-/* Only apply hover effects on devices that support hover */
-@media (hover: hover) {
-  .rsvp-button:hover {
-    background: var(--peach-pink);
-    color: var(--white);
-    transform: translateY(-2px);
-    box-shadow: 0 4px 15px rgba(245, 184, 195, 0.4);
-    border: 2px solid var(--peach-pink);
-  }
-}
-
 .rsvp-button:active {
   transform: translateY(0);
   box-shadow: 0 2px 8px rgba(245, 184, 195, 0.3);
@@ -112,6 +100,7 @@ button:hover {
 .content p {
   font-size: 1.2rem;
   color: var(--lavender);
+  margin: 0;
 }
 
 /* Loading and Error States */
@@ -162,6 +151,18 @@ button:hover {
 }
 
 /* Mobile Responsiveness */
+
+/* Only apply hover effects on devices that support hover */
+@media (hover: hover) {
+  .rsvp-button:hover {
+    background: var(--peach-pink);
+    color: var(--white);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(245, 184, 195, 0.4);
+    border: 2px solid var(--peach-pink);
+  }
+}
+
 @media (max-width: 768px) {
   .banner {
     height: 25vh;

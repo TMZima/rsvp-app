@@ -10,7 +10,7 @@ function EventActions({ onWillAttend, onWillNotAttend }: EventActionsProps) {
   };
 
   const handleWillNotAttend = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.currentTarget.blur(); // Remove focus to prevent blue border
+    e.currentTarget.blur();
     onWillNotAttend();
   };
 

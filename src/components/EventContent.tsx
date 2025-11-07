@@ -11,7 +11,7 @@ function EventContent({ isLoading, apiError, eventDate }: EventContentProps) {
   if (isLoading) {
     return (
       <div className="loading-container">
-        <p className="loading-text">Loading event information...</p>
+        <p className="loading-text">Loading event countdown...</p>
         <div className="spinner"></div>
       </div>
     );
@@ -22,9 +22,6 @@ function EventContent({ isLoading, apiError, eventDate }: EventContentProps) {
     return (
       <div className="error-container">
         <p className="error-text">{apiError}</p>
-        <p className="error-fallback">
-          Party is on December 6th, 2025 from 1pm to 4pm
-        </p>
       </div>
     );
   }
