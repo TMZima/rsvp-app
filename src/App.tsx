@@ -23,6 +23,8 @@ function App() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [eventInfo, setEventInfo] = useState<EventApiResponse | null>(null);
 
+  const [apiError, setApiError] = useState<string | null>(null);
+
   useEffect(() => {
     const fetchEventInfo = async () => {
       try {
@@ -31,6 +33,7 @@ function App() {
         setEventInfo(data);
       } catch (err) {
         console.error("Error fetching event info:", err);
+        setApiError("Could not load event information");
       }
     };
 
@@ -58,7 +61,14 @@ function App() {
         <h2 className="script-font name-title">McKinsley's</h2>
         <h3 className="event-title">Winter One-derland</h3>
         <p className="date">December 6th, 2025</p>
-        {eventInfo && <Countdown eventDate={eventInfo.eventInfo.eventDate!} />}
+        {apiError ? (
+          <div className="error-message">
+            <p>{apiError}</p>
+            <p className="date">December 6th, 2025</p>
+          </div>
+        ) : (
+          eventInfo && <Countdown eventDate={eventInfo.eventInfo.eventDate!} />
+        )}
         <button className="rsvp-button" onClick={handleWillAttend}>
           Will attend
         </button>
