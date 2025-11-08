@@ -78,6 +78,13 @@
   .form-actions {
     flex-direction: column;
     gap: 0.5rem;
-    align-items: stretch;
+    align-items: center;
+  }
+  .form-actions .rsvp-button {
+    width: auto;
+    min-width: 140px;
+    max-width: 90vw;
+    margin: 0 auto;
+    display: block;
   }
 }
