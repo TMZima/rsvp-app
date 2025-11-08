@@ -87,6 +87,36 @@
   margin: 0 auto;
 }
 
+/* Attending button group styles */
+.attending-toggle {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+.attending-toggle button {
+  background: var(--soft-gray);
+  border: 2px solid var(--peach-pink);
+  color: var(--lavender);
+  padding: 10px 24px;
+  border-radius: 20px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  outline: none;
+  box-shadow: none;
+}
+.attending-toggle button.selected {
+  background: var(--peach-pink);
+  color: var(--white);
+  border: 2px solid var(--peach-pink);
+}
+.attending-toggle button:focus {
+  outline: none;
+  box-shadow: none;
+}
+
 /* Buttons use .rsvp-button from App.css for consistency */
 
 @media (max-width: 480px) {

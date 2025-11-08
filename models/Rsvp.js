@@ -29,7 +29,28 @@ const rsvpSchema = new mongoose.Schema(
         },
         "Please specify the number of guests when attending",
       ],
-      min: [1, "Number of guests must be at least 1 if attending"],
+      min: [0, "Number of guests cannot be negative"],
+      validate: {
+        validator: function (value) {
+          // For updates, use this.getUpdate() and fallback to this.attending
+          let attending;
+          if (typeof this.getUpdate === "function") {
+            const update = this.getUpdate();
+            attending = update.attending;
+            // If $set is used
+            if (update.$set && typeof update.$set.attending !== "undefined") {
+              attending = update.$set.attending;
+            }
+          } else {
+            attending = this.attending;
+          }
+          if (attending) {
+            return value >= 1;
+          }
+          return value === 0;
+        },
+        message: "Invalid number of guests for attending status.",
+      },
     },
     numOfChildren: {
       type: Number,
@@ -42,12 +63,27 @@ const rsvpSchema = new mongoose.Schema(
       min: [0, "Number of children cannot be negative"],
       validate: {
         validator: function (value) {
-          if (this.attending) {
-            return value <= this.numOfGuests;
+          let attending, numOfGuests;
+          if (typeof this.getUpdate === "function") {
+            const update = this.getUpdate();
+            attending = update.attending;
+            numOfGuests = update.numOfGuests;
+            if (update.$set) {
+              if (typeof update.$set.attending !== "undefined")
+                attending = update.$set.attending;
+              if (typeof update.$set.numOfGuests !== "undefined")
+                numOfGuests = update.$set.numOfGuests;
+            }
+          } else {
+            attending = this.attending;
+            numOfGuests = this.numOfGuests;
           }
-          return true;
+          if (attending) {
+            return value <= numOfGuests;
+          }
+          return value === 0;
         },
-        message: "Number of children cannot exceed total number of guests.",
+        message: "Invalid number of children for attending status.",
       },
     },
     // Token for secure updates

@@ -67,7 +67,7 @@ export default async function handler(req, res) {
       const rsvp = await Rsvp.findOneAndUpdate(
         { updateToken: req.query.token },
         req.body,
-        { new: true, runValidators: true }
+        { new: true, runValidators: true, context: "query" }
       );
       if (!rsvp) {
         return res.status(404).json({

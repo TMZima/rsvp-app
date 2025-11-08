@@ -5,13 +5,34 @@ import "./RSVPForm.css";
 interface RSVPFormProps {
   onClose: () => void;
   attending?: boolean;
+  initialValues?: {
+    name: string;
+    email: string;
+    attending: boolean;
+    numOfGuests?: number;
+    numOfChildren?: number;
+    updateToken: string;
+  };
+  mode?: "create" | "update";
 }
 
-export default function RSVPForm({ onClose, attending = true }: RSVPFormProps) {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [numOfGuests, setNumOfGuests] = useState(1);
-  const [numOfChildren, setNumOfChildren] = useState(0);
+export default function RSVPForm({
+  onClose,
+  attending: attendingProp = true,
+  initialValues,
+  mode,
+}: RSVPFormProps) {
+  const [attending, setAttending] = useState(
+    initialValues?.attending ?? attendingProp
+  );
+  const [name, setName] = useState(initialValues?.name || "");
+  const [email, setEmail] = useState(initialValues?.email || "");
+  const [numOfGuests, setNumOfGuests] = useState(
+    initialValues?.numOfGuests ?? 1
+  );
+  const [numOfChildren, setNumOfChildren] = useState(
+    initialValues?.numOfChildren ?? 0
+  );
   const [updateLink, setUpdateLink] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
@@ -27,12 +48,20 @@ export default function RSVPForm({ onClose, attending = true }: RSVPFormProps) {
     setError(null);
     setSuccess(false);
 
+    // Always include guests/children, set to 0 if not attending
     const payload = {
       name,
       email,
       attending,
-      ...(attending && { numOfGuests, numOfChildren }),
+      numOfGuests: attending ? numOfGuests : 0,
+      numOfChildren: attending ? numOfChildren : 0,
     };
+
+    const isUpdate = mode === "update" && initialValues?.updateToken;
+    const url = isUpdate
+      ? `/api/rsvp/token/${initialValues.updateToken}`
+      : "/api/rsvp";
+    const method = isUpdate ? "PUT" : "POST";
 
     if (!name.trim()) {
       setError("Name is required");
@@ -59,8 +88,8 @@ export default function RSVPForm({ onClose, attending = true }: RSVPFormProps) {
 
     setLoading(true);
     try {
-      const res = await fetch("/api/rsvp", {
-        method: "POST",
+      const res = await fetch(url, {
+        method,
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
       });
@@ -95,7 +124,7 @@ export default function RSVPForm({ onClose, attending = true }: RSVPFormProps) {
               <br />
               A Google Meet will bring you here!
               <br />
-              We'll Share the link before the day,
+              We'll share the link before the day,
               <br />
               So you can join the song and say Hooray!
             </>
@@ -120,6 +149,28 @@ export default function RSVPForm({ onClose, attending = true }: RSVPFormProps) {
 
   return (
     <form className="rsvp-form" onSubmit={handleSubmit} noValidate>
+      {mode === "update" && (
+        <div className="attending-toggle">
+          <button
+            type="button"
+            className={attending ? "selected" : ""}
+            onClick={() => {
+              setAttending(true);
+              setNumOfGuests((prev) => (prev === 0 ? 1 : prev));
+              setNumOfChildren((prev) => (prev < 0 ? 0 : prev));
+            }}
+          >
+            Will Attend
+          </button>
+          <button
+            type="button"
+            className={!attending ? "selected" : ""}
+            onClick={() => setAttending(false)}
+          >
+            Will not attend
+          </button>
+        </div>
+      )}
       <label>
         Name*
         <input
@@ -168,7 +219,13 @@ export default function RSVPForm({ onClose, attending = true }: RSVPFormProps) {
       {error && <div className="form-error">{error}</div>}
       <div className="form-actions">
         <button className="rsvp-button" type="submit" disabled={loading}>
-          {loading ? "Submitting..." : "Submit RSVP"}
+          {loading
+            ? mode === "update"
+              ? "Updating..."
+              : "Submitting..."
+            : mode === "update"
+            ? "Update RSVP"
+            : "Submit RSVP"}
         </button>
         <button
           className="rsvp-button"
