@@ -1,0 +1,19 @@
+.event-footer {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100vw;
+  height: 10vh;
+  background-color: var(--sky-blue);
+  margin-top: 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.footer-contact a {
+  color: var(--peach-pink);
+  text-decoration: underline;
+  font-weight: 600;
+}

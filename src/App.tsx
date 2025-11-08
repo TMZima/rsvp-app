@@ -5,6 +5,7 @@ import { Routes, Route } from "react-router-dom";
 import EventHeader from "./components/EventHeader.tsx";
 import EventContent from "./components/EventContent.tsx";
 import EventActions from "./components/EventActions.tsx";
+import EventFooter from "./components/EventFooter.tsx";
 import RSVPModal from "./components/RSVPModal";
 import RSVPUpdate from "./components/RSVPUpdate.tsx";
 
@@ -52,6 +53,7 @@ function App() {
                 />
               )}
             </div>
+            <EventFooter />
           </div>
         }
       />

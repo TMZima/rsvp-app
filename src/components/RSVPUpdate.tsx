@@ -1,6 +1,7 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useRsvpByToken } from "../hooks/useRsvpByToken";
 import RSVPForm from "./RSVPForm";
+import EventFooter from "./EventFooter";
 
 export default function RSVPUpdate() {
   const { token } = useParams();
@@ -46,6 +47,7 @@ export default function RSVPUpdate() {
           </div>
         </div>
       </div>
+      <EventFooter />
     </div>
   );
 }
