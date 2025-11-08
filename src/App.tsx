@@ -15,17 +15,13 @@ function App() {
   const { eventInfo, isLoading, apiError } = useEventInfo();
 
   function handleWillAttend() {
-    console.log("Will Attend clicked!");
     setIsModalOpen(true);
     setAttending(true);
-    console.log("Modal should be open, attending: true (just set it)");
   }
 
   function handleWillNotAttend() {
-    console.log("Will NOT Attend clicked!");
     setIsModalOpen(true);
     setAttending(false);
-    console.log("Modal should be open, attending: false (just set it)");
   }
 
   return (

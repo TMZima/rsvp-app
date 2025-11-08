@@ -4,9 +4,10 @@ import "./RSVPForm.css";
 
 interface RSVPFormProps {
   onClose: () => void;
+  attending?: boolean;
 }
 
-export default function RSVPForm({ onClose }: RSVPFormProps) {
+export default function RSVPForm({ onClose, attending = true }: RSVPFormProps) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [numOfGuests, setNumOfGuests] = useState(1);
@@ -26,6 +27,13 @@ export default function RSVPForm({ onClose }: RSVPFormProps) {
     setError(null);
     setSuccess(false);
 
+    const payload = {
+      name,
+      email,
+      attending,
+      ...(attending && { numOfGuests, numOfChildren }),
+    };
+
     if (!name.trim()) {
       setError("Name is required");
       return;
@@ -34,17 +42,19 @@ export default function RSVPForm({ onClose }: RSVPFormProps) {
       setError("A valid email is required");
       return;
     }
-    if (numOfGuests < 1) {
-      setError("Number of guests must be at least 1");
-      return;
-    }
-    if (numOfChildren < 0) {
-      setError("Number of children cannot be negative");
-      return;
-    }
-    if (numOfChildren > numOfGuests) {
-      setError("Number of children cannot exceed total number of guests.");
-      return;
+    if (attending) {
+      if (numOfGuests < 1) {
+        setError("Number of guests must be at least 1");
+        return;
+      }
+      if (numOfChildren < 0) {
+        setError("Number of children cannot be negative");
+        return;
+      }
+      if (numOfChildren > numOfGuests) {
+        setError("Children cannot exceed guests");
+        return;
+      }
     }
 
     setLoading(true);
@@ -52,13 +62,7 @@ export default function RSVPForm({ onClose }: RSVPFormProps) {
       const res = await fetch("/api/rsvp", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name,
-          email,
-          numOfGuests,
-          numOfChildren,
-          attending: true,
-        }),
+        body: JSON.stringify(payload),
       });
       if (!res.ok) {
         const data = await res.json();
@@ -78,7 +82,25 @@ export default function RSVPForm({ onClose }: RSVPFormProps) {
   if (success) {
     return (
       <div className="form-success">
-        <p className="form-success-message">We look forward to seeing you!</p>
+        <p className="form-success-message">
+          {attending ? (
+            "We look forward to seeing you!"
+          ) : (
+            <>
+              When the Land of Sweets is all aglow,
+              <br />
+              And birthday candles start to show,
+              <br />
+              For friends afar who cannot be near,
+              <br />
+              A Google Meet will bring you here!
+              <br />
+              We'll Share the link before the day,
+              <br />
+              So you can join the song and say Hooray!
+            </>
+          )}
+        </p>
         {updateLink && (
           <div className="update-link-box">
             <p style={{ marginBottom: "0.5rem" }}>
@@ -97,7 +119,7 @@ export default function RSVPForm({ onClose }: RSVPFormProps) {
   }
 
   return (
-    <form className="rsvp-form" onSubmit={handleSubmit}>
+    <form className="rsvp-form" onSubmit={handleSubmit} noValidate>
       <label>
         Name*
         <input
@@ -117,28 +139,32 @@ export default function RSVPForm({ onClose }: RSVPFormProps) {
           required
         />
       </label>
-      <label>
-        Total Number of Guests*
-        <input
-          className="form-input"
-          type="number"
-          min={1}
-          value={numOfGuests}
-          onChange={(e) => setNumOfGuests(Number(e.target.value))}
-          required
-        />
-      </label>
-      <label>
-        Number of Children
-        <input
-          className="form-input"
-          type="number"
-          min={0}
-          value={numOfChildren}
-          onChange={(e) => setNumOfChildren(Number(e.target.value))}
-          required
-        />
-      </label>
+      {attending && (
+        <>
+          <label>
+            Total Number of Guests*
+            <input
+              className="form-input"
+              type="number"
+              min={1}
+              value={numOfGuests}
+              onChange={(e) => setNumOfGuests(Number(e.target.value))}
+              required
+            />
+          </label>
+          <label>
+            Number of Children
+            <input
+              className="form-input"
+              type="number"
+              min={0}
+              value={numOfChildren}
+              onChange={(e) => setNumOfChildren(Number(e.target.value))}
+              required
+            />
+          </label>
+        </>
+      )}
       {error && <div className="form-error">{error}</div>}
       <div className="form-actions">
         <button className="rsvp-button" type="submit" disabled={loading}>

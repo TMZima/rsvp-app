@@ -12,15 +12,14 @@ function RSVPModal(props: RSVPModalProps) {
   return (
     <div className="modal-overlay">
       <div className="modal-content">
-        {props.attending ? (
+        {props.attending !== null && (
           <>
-            <h2>Great! 🩰 You're coming!</h2>
-            <RSVPForm onClose={props.onClose} />
-          </>
-        ) : (
-          <>
-            <h2>Sorry you can't make it!</h2>
-            <button onClick={props.onClose}>Close</button>
+            <h2>
+              {props.attending
+                ? "Great! 🩰 You're coming!"
+                : "Sorry you can't make it!"}
+            </h2>
+            <RSVPForm onClose={props.onClose} attending={props.attending} />
           </>
         )}
       </div>
