@@ -1,4 +1,5 @@
 .event-footer {
+  color: var(--lavender);
   position: fixed;
   left: 0;
   bottom: 0;
