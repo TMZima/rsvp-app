@@ -11,6 +11,7 @@ export default function RSVPForm({ onClose }: RSVPFormProps) {
   const [email, setEmail] = useState("");
   const [numOfGuests, setNumOfGuests] = useState(1);
   const [numOfChildren, setNumOfChildren] = useState(0);
+  const [updateLink, setUpdateLink] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -41,6 +42,10 @@ export default function RSVPForm({ onClose }: RSVPFormProps) {
       setError("Number of children cannot be negative");
       return;
     }
+    if (numOfChildren > numOfGuests) {
+      setError("Number of children cannot exceed total number of guests.");
+      return;
+    }
 
     setLoading(true);
     try {
@@ -59,6 +64,8 @@ export default function RSVPForm({ onClose }: RSVPFormProps) {
         const data = await res.json();
         setError(data.message || "Submission failed. Please try again.");
       } else {
+        const data = await res.json();
+        setUpdateLink(data.updateLink);
         setSuccess(true);
       }
     } catch (err) {
@@ -71,7 +78,17 @@ export default function RSVPForm({ onClose }: RSVPFormProps) {
   if (success) {
     return (
       <div className="form-success">
-        <p>Thank you for your RSVP! We look forward to seeing you 🎉</p>
+        <p className="form-success-message">We look forward to seeing you!</p>
+        {updateLink && (
+          <div className="update-link-box">
+            <p style={{ marginBottom: "0.5rem" }}>
+              Save this link to update your RSVP:
+            </p>
+            <a href={updateLink} target="_blank" rel="noopener noreferrer">
+              {updateLink}
+            </a>
+          </div>
+        )}
         <button className="rsvp-button" type="button" onClick={onClose}>
           Close
         </button>
@@ -101,7 +118,7 @@ export default function RSVPForm({ onClose }: RSVPFormProps) {
         />
       </label>
       <label>
-        Number of Guests*
+        Total Number of Guests*
         <input
           className="form-input"
           type="number"

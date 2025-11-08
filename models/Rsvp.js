@@ -40,6 +40,15 @@ const rsvpSchema = new mongoose.Schema(
         "Please specify the number of children when attending (enter 0 if none)",
       ],
       min: [0, "Number of children cannot be negative"],
+      validate: {
+        validator: function (value) {
+          if (this.attending) {
+            return value <= this.numOfGuests;
+          }
+          return true;
+        },
+        message: "Number of children cannot exceed total number of guests.",
+      },
     },
     // Token for secure updates
     updateToken: {

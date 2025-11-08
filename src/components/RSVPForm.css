@@ -1,13 +1,11 @@
-/* RSVPForm.css - Consistent with app and modal styles */
-
 .rsvp-form {
   color: var(--lavender);
-  background: var(--white);
-  border-radius: 15px;
-  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.08);
-  padding: 2rem 1.5rem;
-  max-width: 400px;
-  margin: 0 auto;
+  background: transparent;
+  border-radius: 0;
+  box-shadow: none;
+  padding: 0;
+  max-width: 100%;
+  margin: 0;
   display: flex;
   flex-direction: column;
   gap: 1.2rem;
@@ -50,14 +48,14 @@
 }
 
 .form-success {
-  background: var(--soft-gray);
-  border: 1px solid var(--lavender);
-  border-radius: 15px;
-  padding: 2rem 1.5rem;
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  padding: 0;
   text-align: center;
   color: var(--lavender);
-  max-width: 400px;
-  margin: 0 auto;
+  max-width: 100%;
+  margin: 0;
 }
 
 .form-actions {
@@ -67,13 +65,27 @@
   margin-top: 0.5rem;
 }
 
+.update-link-box {
+  word-break: break-all;
+  text-align: center;
+  max-width: 22rem;
+  margin: 0 auto;
+}
+
+.update-link-box a {
+  color: var(--sky-blue);
+  text-decoration: underline;
+  font-size: 1rem;
+  user-select: all;
+}
+
 /* Buttons use .rsvp-button from App.css for consistency */
 
 @media (max-width: 480px) {
   .rsvp-form,
   .form-success {
-    padding: 1.2rem 0.5rem;
-    max-width: 98vw;
+    padding: 0;
+    max-width: 100%;
   }
   .form-actions {
     flex-direction: column;
@@ -86,5 +98,10 @@
     max-width: 90vw;
     margin: 0 auto;
     display: block;
+  }
+
+  .form-success .form-success-message,
+  .form-success .update-link-box p {
+    font-size: 1.1rem;
   }
 }

@@ -46,6 +46,18 @@ export default async function handler(req, res) {
         });
       }
 
+      // Validate number of children does not exceed number of guests
+      if (
+        req.body.attending === true &&
+        typeof req.body.numOfGuests === "number" &&
+        typeof req.body.numOfChildren === "number" &&
+        req.body.numOfChildren > req.body.numOfGuests
+      ) {
+        return res.status(400).json({
+          message: "Number of children cannot exceed total number of guests.",
+        });
+      }
+
       // Handle No → Yes transition: provide defaults for required fields
       if (req.body.attending === true) {
         req.body.numOfGuests = req.body.numOfGuests || 1;

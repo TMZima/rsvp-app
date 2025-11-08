@@ -14,7 +14,7 @@ function RSVPModal(props: RSVPModalProps) {
       <div className="modal-content">
         {props.attending ? (
           <>
-            <h2>"Great! You're coming!"</h2>
+            <h2>Great! 🩰 You're coming!</h2>
             <RSVPForm onClose={props.onClose} />
           </>
         ) : (

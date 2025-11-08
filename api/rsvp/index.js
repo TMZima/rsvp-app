@@ -18,6 +18,17 @@ export default async function handler(req, res) {
           eventDate: process.env.EVENT_DATE,
         });
       }
+      // Validate number of children does not exceed number of guests
+      if (
+        req.body.attending === true &&
+        typeof req.body.numOfGuests === "number" &&
+        typeof req.body.numOfChildren === "number" &&
+        req.body.numOfChildren > req.body.numOfGuests
+      ) {
+        return res.status(400).json({
+          message: "Number of children cannot exceed total number of guests.",
+        });
+      }
       const rsvp = await Rsvp.create(req.body);
       // For Vercel/Next.js serverless: get protocol and host from headers
       const protocol = req.headers["x-forwarded-proto"] || "http";
