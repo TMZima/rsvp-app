@@ -29,7 +29,9 @@ export default function RSVPUpdate() {
               <>
                 <h2>Update Your RSVP</h2>
                 {apiError ? (
-                  <div style={{ color: "red" }}>{apiError}</div>
+                  <div className="error-container">
+                    <p className="error-text">{apiError}</p>
+                  </div>
                 ) : rsvp ? (
                   <RSVPForm
                     initialValues={rsvp}
