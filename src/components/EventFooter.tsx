@@ -4,10 +4,7 @@ export default function EventFooter() {
   return (
     <footer className="event-footer">
       <div className="footer-banner">
-        <span>
-          Website designed &amp; maintained by McKinsley's CTO, Dad. Aka Trey
-          Zima
-        </span>
+        <span>Website designed &amp; maintained by McKinsley's CTO</span>
       </div>
       <div className="footer-contact">
         For your own RSVP site or other website inquiries email{" "}
