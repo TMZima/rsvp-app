@@ -64,6 +64,7 @@ export default async function handler(req, res) {
           help: "Please fix the issues above and submit your RSVP again.",
         });
       }
+      console.error("RSVP API error:", err);
       res
         .status(400)
         .json({ message: "Unable to submit RSVP. Please try again." });
